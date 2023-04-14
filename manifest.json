@@ -5,5 +5,13 @@
   "name": "simple-wallet",
   "short_name": "simple-wallet",
   "start_url": "/?utm_source=web_app_manifest",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "http://play.google.com/store/apps/details?id=com.davidsushi.simplewallet",
+      "id": "com.davidsushi.simplewallet"
+    }
+  ],
+  "prefer_related_applications": true
 }
