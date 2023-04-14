@@ -5,7 +5,6 @@ install-bash-dependencies:
 
 ### Development #######################################################
 start-app:
-# this installs package.json dependencies?
 	npx expo start
 
 start-app-2:
