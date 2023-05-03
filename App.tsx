@@ -2,75 +2,84 @@ import React, { useState } from 'react';
 import { QueryClientProvider } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
 
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { MD3DarkTheme, DataTable, Text, Provider as PaperProvider } from 'react-native-paper';
 
-import PasswordWallet from './components/PasswordWallet';
+
+import WalletControlButtons from './components/WalletControlButtons';
+// import { Wallet, useWallet } from './hooks/useWallet';
 
 
+// const queryClient = new QueryClient();
 function App() {
+  const [walletLockState, setWalletLockState] = useState(true);
+
+  // const { data: wallet} = useWallet({});
 
   return (
     <QueryClientProvider client={new QueryClient()}>
       <SafeAreaProvider>
-        <ScrollView contentContainerStyle={styles.container}>
-          <Text style={styles.header}>Simple Wallet</Text>
-          <Text style={styles.subtext}>Cold Storage Online</Text>
-          <View style={styles.table}>
-            <View style={styles.row}>
-              <Text style={styles.cell}>Address</Text>
-              <Text style={styles.cell}>Balance</Text>
-              <Text style={styles.cell}>Transactions</Text>
-              <Text style={styles.cell}>Total Received</Text>
-              <Text style={styles.cell}>Private Key</Text>
-            </View>
-            <View style={styles.row}>
-              <Text style={styles.cell}>{'publicKey'}</Text>
-              <Text style={styles.cell}>{'final_balance'}</Text>
-              <Text style={styles.cell}>{'n_tx'}</Text>
-              <Text style={styles.cell}>{'total_received'}</Text>
-              <View style={styles.cell}>
-                <PasswordWallet/>
-              </View>
-            </View>
-          </View>
-        </ScrollView>
+        <PaperProvider theme={MD3DarkTheme}>
+          <ScrollView contentContainerStyle={styles.container}>
+            <Text style={styles.header}>Simple Wallet</Text>
+            <Text style={styles.subtext}>Cold Storage Online</Text>
+            <WalletControlButtons
+              lockState={walletLockState}
+              setLockState={setWalletLockState}
+            />
+            {
+              walletLockState ? null : (
+                <DataTable style={styles.table}>
+                  <DataTable.Header>
+                    <DataTable.Title textStyle={styles.subtext}>Address</DataTable.Title>
+                    <DataTable.Title textStyle={styles.subtext}>Balance</DataTable.Title>
+                    <DataTable.Title textStyle={styles.subtext}>Transactions</DataTable.Title>
+                    <DataTable.Title textStyle={styles.subtext}>Total Received</DataTable.Title>
+                    <DataTable.Title textStyle={styles.subtext}>Private Key</DataTable.Title>
+                  </DataTable.Header>
+                  <DataTable.Row >
+                    <DataTable.Cell textStyle={styles.subtext}>{'publicKey'}</DataTable.Cell>
+                    <DataTable.Cell textStyle={styles.subtext}>{'final_balance'}</DataTable.Cell>
+                    <DataTable.Cell textStyle={styles.subtext}>{'n_tx'}</DataTable.Cell>
+                    <DataTable.Cell textStyle={styles.subtext}>{'total_received'}</DataTable.Cell>
+                    <DataTable.Cell textStyle={styles.subtext}>{'private_key'}</DataTable.Cell>
+                  </DataTable.Row>
+                </DataTable>
+              )
+            }
+          </ScrollView>
+        </PaperProvider>
       </SafeAreaProvider>
     </QueryClientProvider>
   );
 }
 
-const borderColor = '#000';
+// const borderColor = '#000';
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
+    color: '#000',
   },
   subtext: {
     fontSize: 14,
     fontStyle: 'italic',
     marginBottom: 15,
+    color: '#000',
   },
   table: {
     borderWidth: 1,
-    borderColor: borderColor,
+    borderColor: '#000',
     width: '80%',
   },
-  row: {
-    flexDirection: 'row',
-  },
-  cell: {
-    borderWidth: 1,
-    borderColor: borderColor,
-    padding: 10,
-    width: '20%'
-  }
 });
 
 export default App;

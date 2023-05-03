@@ -1,4 +1,5 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useState, useEffect } from 'react';
+import { useQuery, UseQueryResult, useQueryClient } from "@tanstack/react-query";
 import CryptoJS from 'crypto-js';
 
 export interface Wallet {
@@ -14,17 +15,39 @@ interface Transactions {
 }
 
 export const useWallet = (
-  password: string, submittedPassword: boolean
-): UseQueryResult<Wallet, Error> => {
-  return useQuery({
-    queryKey: ["wallet", password],
-    queryFn: () => fetchWallet(password),
-    enabled: submittedPassword,
-    retry: false
-  });
+  {
+    password = '',
+    enabledState = false,
+    timestamp = 0
+  }:
+  {
+    password?: string,
+    enabledState?: boolean,
+    timestamp?: number
+  }): UseQueryResult<Wallet, Error> => {
+    // const queryClient = useQueryClient();
+    // Add a new state variable to manage the enabled state
+    const [_enabled, setEnabled] = useState(enabledState);
+
+    useEffect(() => {
+      setEnabled(enabledState);
+    }, [enabledState, timestamp]);
+
+    const queryKey = ["wallet", password, timestamp];
+    return useQuery({
+      queryKey,
+      queryFn: () => fetchWallet(password, timestamp),
+      enabled: _enabled,
+      retry: false,
+      onSettled: () => {
+        console.log('im settling wallet!', timestamp)
+        setEnabled(false);
+      },
+    });
 };
 
-const fetchWallet = async (password: string): Promise<Wallet> => {
+const fetchWallet = async (password: string, timestamp:number): Promise<Wallet> => {
+  console.log('im fetching wallet!', timestamp)
   // ----- Mocked fetch logic ---------------------------------------------
   let defaultWallet: Wallet = {
     publicKey: '1JPbzbsAx1HyaDQoLMapWGoqf9pD5uha5m',
