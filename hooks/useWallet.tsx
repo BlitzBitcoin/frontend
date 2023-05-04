@@ -33,6 +33,7 @@ export const useWallet = (
       setEnabled(enabledState);
     }, [enabledState, timestamp]);
 
+    console.log('query key is', ["wallet", password, timestamp])
     const queryKey = ["wallet", password, timestamp];
     return useQuery({
       queryKey,
