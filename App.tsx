@@ -12,15 +12,15 @@ import WalletControlButtons from './components/WalletControlButtons';
 import WalletDataTable from './components/WalletDataTable';
 // import { Wallet, useWallet } from './hooks/useWallet';
 
+const queryClient = new QueryClient(); // keep out of App() so its same instance when App() re-renders (?)
 
-// const queryClient = new QueryClient();
 function App() {
   const [walletLockState, setWalletLockState] = useState(true);
 
   // const { data: wallet} = useWallet({});
 
   return (
-    <QueryClientProvider client={new QueryClient()}>
+    <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
         <PaperProvider theme={MD3DarkTheme}>
           <ScrollView contentContainerStyle={styles.container}>
