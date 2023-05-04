@@ -9,21 +9,18 @@ import useWalletStore from '../stores/useWalletStore';
 
 const WalletDataTable = () => {
   const queryClient = useQueryClient();
-
   const { password, submitTimestamp } = useWalletStore();
-
-
-  // const wallet = queryClient.getQueryData(['wallet', password, submitTimestamp]);
+  const wallet = queryClient.getQueryData(["wallet", password, submitTimestamp]);
+  // console.log('wallet datatable is', wallet);
   
   // Use the useWallet hook and enable it when password and submitTimestamp are available
-  const { data: wallet } = useWallet({
-    password,
-    timestamp: submitTimestamp,
-    enabledState: !!password && !!submitTimestamp,
-  });
+  // const { data: wallet } = useWallet({
+  //   password,
+  //   timestamp: submitTimestamp,
+  //   enabledState: !!password && !!submitTimestamp,
+  // });
 
 
-  // console.log('wallet datatable is', wallet);
   // console.log('query key datatable is', ["wallet", password, submitTimestamp]);
 
 
