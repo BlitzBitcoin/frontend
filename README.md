@@ -32,7 +32,8 @@
 # Development
 
 - See "scripts" in [package.json](./package.json), e.g "npm start"
-- Alterntively, use [make commands](./Makefile), e.g `make start`
+- Alterntively, use [make commands](./Makefile), e.g `make start-app`
+- Because the app is built via expo, installing dependencies is done via `npx expo install <package-name>`
 
 # DevOps
 

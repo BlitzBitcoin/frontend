@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Wallet, useWallet } from '../hooks/useWallet';
 
+import { Wallet, useWallet } from '../hooks/useWallet';
+import useWalletStore from '../stores/useWalletStore';
 
 
 const WalletControlButtons = ({
@@ -9,11 +10,13 @@ const WalletControlButtons = ({
   setLockState
 }) => {
 
+  const { password, setPassword, submitTimestamp, setSubmitTimestamp } = useWalletStore();
+
   const [inputPassword, setInputPassword] = useState('');
-  const [password, setPassword] = useState('');
+  // const [password, setPassword] = useState('');
 
   const [submittedPassword, setSubmitted] = useState(false);
-  const [submitTimestamp, setSubmitTimestamp] = useState(0);
+  // const [submitTimestamp, setSubmitTimestamp] = useState(0);
 
   const { data: wallet, error, isError } = useWallet({
     password: password,

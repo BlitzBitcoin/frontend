@@ -9,6 +9,7 @@ import { MD3DarkTheme, DataTable, Text, Provider as PaperProvider } from 'react-
 
 
 import WalletControlButtons from './components/WalletControlButtons';
+import WalletDataTable from './components/WalletDataTable';
 // import { Wallet, useWallet } from './hooks/useWallet';
 
 
@@ -30,6 +31,9 @@ function App() {
               setLockState={setWalletLockState}
             />
             {
+              !walletLockState && <WalletDataTable />
+            }
+            {/* {
               walletLockState ? null : (
                 <DataTable style={styles.table}>
                   <DataTable.Header>
@@ -48,7 +52,7 @@ function App() {
                   </DataTable.Row>
                 </DataTable>
               )
-            }
+            } */}
           </ScrollView>
         </PaperProvider>
       </SafeAreaProvider>
