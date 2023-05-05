@@ -11,12 +11,8 @@ const WalletControlButtons = ({
 }) => {
 
   const { password, setPassword, submitTimestamp, setSubmitTimestamp } = useWalletStore();
-
   const [inputPassword, setInputPassword] = useState('');
-  // const [password, setPassword] = useState('');
-
   const [submittedPassword, setSubmitted] = useState(false);
-  // const [submitTimestamp, setSubmitTimestamp] = useState(0);
 
   const { data: wallet, error, isError } = useWallet({
     password: password,
