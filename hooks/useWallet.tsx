@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react';
 import { useQuery, UseQueryResult, useQueryClient } from "@tanstack/react-query";
 import CryptoJS from 'crypto-js';
 
+import { walletKeys } from "./queryKeys";
+
+
 export interface Wallet {
   publicKey: string;
   privateKeyEncrypted: string;
@@ -33,10 +36,9 @@ export const useWallet = (
       setEnabled(enabledState);
     }, [enabledState, timestamp]);
 
-    console.log('query key is', ["wallet", password, timestamp])
-    const queryKey = ["wallet", password, timestamp];
+    // console.log('query key is', walletKeys.single(password, timestamp))
     return useQuery({
-      queryKey,
+      queryKey: walletKeys.single(password, timestamp),
       queryFn: () => fetchWallet(password, timestamp),
       enabled: _enabled,
       retry: false,
