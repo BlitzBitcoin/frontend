@@ -28,24 +28,12 @@ export const useWallet = (
     enabledState?: boolean,
     timestamp?: number
   }): UseQueryResult<Wallet, Error> => {
-    // const queryClient = useQueryClient();
-    // Add a new state variable to manage the enabled state
-    const [_enabled, setEnabled] = useState(enabledState);
 
-    useEffect(() => {
-      setEnabled(enabledState);
-    }, [enabledState, timestamp]);
-
-    // console.log('query key is', walletKeys.single(password, timestamp))
     return useQuery({
       queryKey: walletKeys.single(password, timestamp),
       queryFn: () => fetchWallet(password, timestamp),
-      enabled: _enabled,
+      enabled: enabledState,
       retry: false,
-      onSettled: () => {
-        console.log('im settling wallet!', timestamp)
-        setEnabled(false);
-      },
     });
 };
 
