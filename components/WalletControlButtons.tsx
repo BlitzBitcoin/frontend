@@ -13,30 +13,32 @@ const WalletControlButtons = ({
   const { password, setPassword, submitTimestamp, setSubmitTimestamp } = useWalletStore();
   const [inputPassword, setInputPassword] = useState('');
   const [submittedPassword, setSubmitted] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
 
-  const { data: wallet, error, isError } = useWallet({
+  const { data: wallet, error } = useWallet({
     password: password,
     enabledState: submittedPassword,
     timestamp: submitTimestamp
   });
 
   useEffect(() => {
-    let successful_fetch_wallet = (wallet && !isError)
-    if (successful_fetch_wallet) {
+    if (wallet) {
       console.log('effect - UNLOCKING WALLET', wallet);
       setLockState(false);
-    } else {
+      setDisplayError(false);
+    } else if (submittedPassword) {
       console.log('effect - LOCKING WALLET', wallet);
       setLockState(true);
       setSubmitted(false);
+      setDisplayError(true);
     }
-    setInputPassword('')
+    setInputPassword('');
   }, [wallet, submittedPassword]);
-
 
   const handleInputPassword = (text) => {
     setLockState(true);
     setInputPassword(text);
+    setDisplayError(false);
   };
 
   const handleUnlockWallet = () => {
@@ -66,7 +68,7 @@ const WalletControlButtons = ({
       >
         <Text style={styles.getKeyButtonText}>Unlock Wallet</Text>
       </TouchableOpacity>
-      <Text style={styles.errorText}>{!inputPassword && error ? error.message : ''}</Text>
+      <Text style={styles.errorText}>{displayError && error ? error.message : ''}</Text>
     </View>
   );
   const send_receive_lock = (
