@@ -5,11 +5,12 @@ import { DataTable, Text } from 'react-native-paper';
 
 import { walletKeys } from '../hooks/queryKeys';
 import useWalletStore from '../stores/useWalletStore';
+import { Wallet } from '../hooks/useWallet';
 
 const WalletDataTable = () => {
   const queryClient = useQueryClient();
   const { password, submitTimestamp } = useWalletStore();
-  const wallet = queryClient.getQueryData(walletKeys.single(password, submitTimestamp));
+  const wallet: Wallet = queryClient.getQueryData(walletKeys.single(password, submitTimestamp));
 
   if (!wallet) {
       return null;
