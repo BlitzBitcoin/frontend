@@ -45,7 +45,7 @@ const fetchWallet = async (password: string, timestamp:number): Promise<Wallet> 
   let defaultWallet: Wallet = {
       userId: "user1",
       xpub: "user1_xpub",
-      xprivEncrypted: "encrypted_user1_xpriv1",
+      xprivEncrypted: "U2FsdGVkX184moMXYzj0KA24KCKWJbrQU5BHg0IiJvLThe4Ko9agGltcLtSndv58zf5AbRClIfDr0GV9jZpH3Xf0CVLcZqpuzuOCcltO7kA",
       transactions: [
       {
           tx_hash: "tx_hash1",
