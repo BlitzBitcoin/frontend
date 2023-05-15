@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
 
+import { View, StyleSheet, ScrollView } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import {
+  MD3DarkTheme,
+  DataTable,
+  Text,
+  Provider as PaperProvider,
+} from "react-native-paper";
 
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { MD3DarkTheme, DataTable, Text, Provider as PaperProvider } from 'react-native-paper';
-
-
-import WalletControlButtons from './components/WalletControlButtons';
-import WalletDataTable from './components/WalletDataTable';
+import WalletControlButtons from "./components/WalletControlButtons";
+import WalletDataTable from "./components/WalletDataTable";
+import WalletPage from "./pages/WalletPage";
 // import { Wallet, useWallet } from './hooks/useWallet';
 
 const queryClient = new QueryClient(); // keep out of App() so its same instance when App() re-renders (?)
@@ -30,9 +34,12 @@ function App() {
               lockState={walletLockState}
               setLockState={setWalletLockState}
             />
-            {
+            {/* {
               !walletLockState && <WalletDataTable />
-            }
+            } */}
+            {!walletLockState && < WalletPage />}
+          
+
             {/* {
               walletLockState ? null : (
                 <DataTable style={styles.table}>
@@ -64,25 +71,25 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     // backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: "bold",
+    color: "#000",
   },
   subtext: {
     fontSize: 14,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     marginBottom: 15,
-    color: '#000',
+    color: "#000",
   },
   table: {
     borderWidth: 1,
-    borderColor: '#000',
-    width: '80%',
+    borderColor: "#000",
+    width: "80%",
   },
 });
 

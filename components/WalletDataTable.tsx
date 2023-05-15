@@ -15,6 +15,7 @@ const WalletDataTable = () => {
   if (!wallet) {
       return null;
   }
+
   return (
     <DataTable style={styles.table}>
       <DataTable.Header>
@@ -24,11 +25,14 @@ const WalletDataTable = () => {
         <DataTable.Title textStyle={styles.subtext}>Total Received</DataTable.Title>
         {/* <DataTable.Title textStyle={styles.subtext}>Private Key</DataTable.Title> */}
       </DataTable.Header>
+
+
       <DataTable.Row>
-        <DataTable.Cell textStyle={styles.subtext}>{wallet.publicKey}</DataTable.Cell>
-        <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions.final_balance}</DataTable.Cell>
-        <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions.n_tx}</DataTable.Cell>
-        <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions.total_received}</DataTable.Cell>
+        {/* for loop to index the transactions? */}
+        <DataTable.Cell textStyle={styles.subtext}>{wallet.xpub}</DataTable.Cell>
+        <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions[0].final_balance}</DataTable.Cell>
+        <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions.length}</DataTable.Cell>
+        {/* <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions.total_received}</DataTable.Cell> */}
         {/* <DataTable.Cell textStyle={styles.subtext}>{wallet.private_key}</DataTable.Cell> */}
       </DataTable.Row>
     </DataTable>
