@@ -3,9 +3,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { StyleSheet } from 'react-native';
 import { DataTable, Text } from 'react-native-paper';
 
-import { walletKeys } from '../hooks/queryKeys';
-import useWalletStore from '../stores/useWalletStore';
-import { Wallet } from '../hooks/useWallet';
+import { walletKeys } from '../../hooks/queryKeys';
+import useWalletStore from '../../stores/useWalletStore';
+import { Wallet } from '../../hooks/useWallet';
 
 const WalletDataTable = () => {
   const queryClient = useQueryClient();

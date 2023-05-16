@@ -11,17 +11,14 @@ import {
   Provider as PaperProvider,
 } from "react-native-paper";
 
-import WalletControlButtons from "./components/WalletControlButtons";
-import WalletDataTable from "./components/WalletDataTable";
+import WalletControlButtons from "./components/atoms/WalletControlButtons";
+import WalletDataTable from "./components/atoms/WalletDataTable";
 import WalletPage from "./pages/WalletPage";
-// import { Wallet, useWallet } from './hooks/useWallet';
 
 const queryClient = new QueryClient(); // keep out of App() so its same instance when App() re-renders (?)
 
 function App() {
   const [walletLockState, setWalletLockState] = useState(true);
-
-  // const { data: wallet} = useWallet({});
 
   return (
     <QueryClientProvider client={queryClient}>

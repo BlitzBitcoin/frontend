@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-import { Wallet, useWallet } from '../hooks/useWallet';
-import useWalletStore from '../stores/useWalletStore';
+import { Wallet, useWallet } from '../../hooks/useWallet';
+import useWalletStore from '../../stores/useWalletStore';
 
 
 const WalletControlButtons = ({
