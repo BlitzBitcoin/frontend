@@ -19,4 +19,4 @@ deploy-gh-pages:
 
 graph-directory:
 # for updating directory map in README.md
-	tree -L 1 -I "node_modules|web-build|.expo"
+	tree -L 2 -I "node_modules|web-build|.expo"

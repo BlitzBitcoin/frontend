@@ -40,7 +40,6 @@ export const useWallet = (
 
 const fetchWallet = async (password: string, timestamp:number): Promise<Wallet> => {
   console.log('im fetching wallet!', timestamp)
-  console.log(password);
   // ----- Mocked fetch logic ---------------------------------------------
   let defaultWallet: Wallet = {
       userId: "user1",

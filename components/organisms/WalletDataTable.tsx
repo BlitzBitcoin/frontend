@@ -4,29 +4,34 @@ import { StyleSheet } from 'react-native';
 import { DataTable, Text } from 'react-native-paper';
 
 import { walletKeys } from '../../hooks/queryKeys';
-import useWalletStore from '../../stores/useWalletStore';
 import { Wallet } from '../../hooks/useWallet';
+import useWalletStore from '../../stores/useWalletStore';
 
+/*
++----------------------------------------------------------------------------------+
+|    Address            Balance              Transactions                          |
+|                                                                                  |
+|    xpub_value         final_balance_value  transactions_length                   |
++----------------------------------------------------------------------------------+
+*/
 const WalletDataTable = () => {
   const queryClient = useQueryClient();
-  const { password, submitTimestamp } = useWalletStore();
-  const wallet: Wallet = queryClient.getQueryData(walletKeys.single(password, submitTimestamp));
-
+  const { password, passwordSubmitTimestamp } = useWalletStore();
+  const wallet: Wallet = queryClient.getQueryData(
+    walletKeys.single(password, passwordSubmitTimestamp)
+  );
   if (!wallet) {
       return null;
   }
-
   return (
     <DataTable style={styles.table}>
       <DataTable.Header>
         <DataTable.Title textStyle={styles.subtext}>Address</DataTable.Title>
         <DataTable.Title textStyle={styles.subtext}>Balance</DataTable.Title>
         <DataTable.Title textStyle={styles.subtext}>Transactions</DataTable.Title>
-        <DataTable.Title textStyle={styles.subtext}>Total Received</DataTable.Title>
+        {/* <DataTable.Title textStyle={styles.subtext}>Total Received</DataTable.Title> */}
         {/* <DataTable.Title textStyle={styles.subtext}>Private Key</DataTable.Title> */}
       </DataTable.Header>
-
-
       <DataTable.Row>
         {/* for loop to index the transactions? */}
         <DataTable.Cell textStyle={styles.subtext}>{wallet.xpub}</DataTable.Cell>
