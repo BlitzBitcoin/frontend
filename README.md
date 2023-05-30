@@ -8,14 +8,19 @@
 ├── app.json            # [ignore?] Expo Config [https://docs.expo.dev/versions/latest/config/app/]
 ├── assets
 ├── babel.config.js     # JS compiler/transpiler to make modern JS backwards compatible
-├── components
+├── components          # React Components
+│   ├── atoms               # Smallest Atomic components (no state hooks, only rendering)
+│   ├── molecules           # Could be made with atoms   (no state hooks, only rendering)
+│   └── organisms           # Could be made with atoms/molecules (handles state hooks)
 ├── dependencies.sh     # Bash Dependencies before active Dockerfile
 ├── eas.json            # [ignore?] Expo Application Services [https://expo.dev/eas]
-├── hooks
+├── hooks               # React Query Hooks/Keys
 ├── package-lock.json
 ├── package.json
-├── screens
+├── pages               # App Pages/Screens made with components
+├── stores              # App State Management (Zustand)
 ├── tsconfig.json
+├── utils               # Utility JS Functions
 └── yarn.lock
 ```
 

@@ -4,17 +4,18 @@ import CryptoJS from 'crypto-js';
 
 import { walletKeys } from "./queryKeys";
 
-
-export interface Wallet {
-  publicKey: string;
-  privateKeyEncrypted: string;
-  transactions?: Transactions;
+interface Transaction {
+  tx_hash: string;
+  final_balance: number;
+  total_received: number;
+  timestamp: string;
 }
 
-interface Transactions {
-  final_balance: number;
-  n_tx: number;
-  total_received: number;
+export interface Wallet {
+  userId: string;
+  xpub: string;
+  xprivEncrypted: string;
+  transactions?: Transaction[];
 }
 
 export const useWallet = (
@@ -41,16 +42,26 @@ const fetchWallet = async (password: string, timestamp:number): Promise<Wallet> 
   console.log('im fetching wallet!', timestamp)
   // ----- Mocked fetch logic ---------------------------------------------
   let defaultWallet: Wallet = {
-    publicKey: '1JPbzbsAx1HyaDQoLMapWGoqf9pD5uha5m',
-    privateKeyEncrypted: 'U2FsdGVkX184moMXYzj0KA24KCKWJbrQU5BHg0IiJvLThe4Ko9agGltcLtSndv58zf5AbRClIfDr0GV9jZpH3Xf0CVLcZqpuzuOCcltO7kA=',
-    transactions: {
-      final_balance: 0,
-      n_tx: 0,
-      total_received: 0,
-    },
+      userId: "user1",
+      xpub: "user1_xpub",
+      xprivEncrypted: "U2FsdGVkX184moMXYzj0KA24KCKWJbrQU5BHg0IiJvLThe4Ko9agGltcLtSndv58zf5AbRClIfDr0GV9jZpH3Xf0CVLcZqpuzuOCcltO7kA",
+      transactions: [
+      {
+          tx_hash: "tx_hash1",
+          final_balance: 1.5,
+          total_received: 1,
+          timestamp: "Sun May 14 2023 20:25:19 GMT-0400 (Eastern Daylight Time)"
+      },
+      {
+          tx_hash: "tx_hash2",
+          final_balance: 0.5,
+          total_received: 0.5,
+          timestamp: "Sun May 13 2023 18:05:19 GMT-0400 (Eastern Daylight Time)"
+      }
+      ]
   };
   const decryptedKey = decryptWithAES(
-    (defaultWallet as Wallet).privateKeyEncrypted, password
+    (defaultWallet as Wallet).xprivEncrypted, password
   );
   if (!decryptedKey) {
     throw new Error("Decryption failed. Check your password and try again.");

@@ -1,89 +1,92 @@
-import React, { useState } from 'react';
 import { QueryClientProvider } from "@tanstack/react-query";
 import { QueryClient } from "@tanstack/react-query";
+import React, { useState } from "react";
 
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { StyleSheet } from "react-native";
+import {
+  MD3DarkTheme,
+  Provider as PaperProvider,
+} from "react-native-paper";
 
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { MD3DarkTheme, DataTable, Text, Provider as PaperProvider } from 'react-native-paper';
+import LoginPage from "./pages/LoginPage";
+import WalletDefaultPage from "./pages/WalletDefaultPage";
+import WalletTransactionsPage from "./pages/WalletTransactionsPage";
 
-
-import WalletControlButtons from './components/WalletControlButtons';
-import WalletDataTable from './components/WalletDataTable';
-// import { Wallet, useWallet } from './hooks/useWallet';
-
-const queryClient = new QueryClient(); // keep out of App() so its same instance when App() re-renders (?)
+// Warning: Keep queryClient out of App() so its same instance when App() re-renders
+const queryClient = new QueryClient();
+const Stack = createStackNavigator();
 
 function App() {
-  const [walletLockState, setWalletLockState] = useState(true);
-
-  // const { data: wallet} = useWallet({});
-
   return (
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
         <PaperProvider theme={MD3DarkTheme}>
-          <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.header}>Simple Wallet</Text>
-            <Text style={styles.subtext}>Cold Storage Online</Text>
-            <WalletControlButtons
-              lockState={walletLockState}
-              setLockState={setWalletLockState}
-            />
-            {
-              !walletLockState && <WalletDataTable />
-            }
-            {/* {
-              walletLockState ? null : (
-                <DataTable style={styles.table}>
-                  <DataTable.Header>
-                    <DataTable.Title textStyle={styles.subtext}>Address</DataTable.Title>
-                    <DataTable.Title textStyle={styles.subtext}>Balance</DataTable.Title>
-                    <DataTable.Title textStyle={styles.subtext}>Transactions</DataTable.Title>
-                    <DataTable.Title textStyle={styles.subtext}>Total Received</DataTable.Title>
-                    <DataTable.Title textStyle={styles.subtext}>Private Key</DataTable.Title>
-                  </DataTable.Header>
-                  <DataTable.Row >
-                    <DataTable.Cell textStyle={styles.subtext}>{'publicKey'}</DataTable.Cell>
-                    <DataTable.Cell textStyle={styles.subtext}>{'final_balance'}</DataTable.Cell>
-                    <DataTable.Cell textStyle={styles.subtext}>{'n_tx'}</DataTable.Cell>
-                    <DataTable.Cell textStyle={styles.subtext}>{'total_received'}</DataTable.Cell>
-                    <DataTable.Cell textStyle={styles.subtext}>{'private_key'}</DataTable.Cell>
-                  </DataTable.Row>
-                </DataTable>
-              )
-            } */}
-          </ScrollView>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="LoginPage">
+              <Stack.Screen
+                name="LoginPage"
+                options={{ headerShown: false }}
+              >
+                {/*
+                  CodeStyle: *Drill Down Nav Props* instead of organisms & below
+                  having them -- so it's obvious where navigation is coming from 
+                */}
+                {(props) => (
+                  <LoginPage
+                    {...props}
+                    navigation={props.navigation} // *Drill Down Nav Props*
+                    navigationName="WalletDefaultPage"
+                  />
+                )}
+              </Stack.Screen>
+              <Stack.Screen
+                name="WalletDefaultPage"
+                options={{ headerShown: false }}
+              >
+                {(props) => (
+                  <WalletDefaultPage
+                    {...props}
+                    navigation={props.navigation} // *Drill Down Nav Props*
+                    navigationName="WalletTransactionsPage"
+                  />
+                )}
+              </Stack.Screen>
+              {/* FIXME: WalletDataTable complaining about useNativeDriver / RTC animation warnings */}
+              <Stack.Screen
+                name="WalletTransactionsPage"
+                options={{ headerShown: false }}
+              >
+                {(props) => (
+                  <WalletTransactionsPage
+                    {...props}
+                    navigation={props.navigation} // *Drill Down Nav Props*
+                    navigationName="LoginPage"
+                  />
+                )}
+              </Stack.Screen>
+            </Stack.Navigator>
+          </NavigationContainer>
         </PaperProvider>
       </SafeAreaProvider>
     </QueryClientProvider>
   );
 }
-
 // const borderColor = '#000';
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     // backgroundColor: '#fff',
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
-  },
-  subtext: {
-    fontSize: 14,
-    fontStyle: 'italic',
-    marginBottom: 15,
-    color: '#000',
-  },
-  table: {
-    borderWidth: 1,
-    borderColor: '#000',
-    width: '80%',
-  },
+    fontWeight: "bold",
+    color: "#000",
+  }
 });
 
 export default App;

@@ -1,0 +1,61 @@
+import React from 'react';
+import { useQueryClient } from "@tanstack/react-query";
+import { StyleSheet } from 'react-native';
+import { DataTable, Text } from 'react-native-paper';
+
+import { walletKeys } from '../../hooks/queryKeys';
+import { Wallet } from '../../hooks/useWallet';
+import useWalletStore from '../../stores/useWalletStore';
+
+/*
++----------------------------------------------------------------------------------+
+|    Address            Balance              Transactions                          |
+|                                                                                  |
+|    xpub_value         final_balance_value  transactions_length                   |
++----------------------------------------------------------------------------------+
+*/
+const WalletDataTable = () => {
+  const queryClient = useQueryClient();
+  const { password, passwordSubmitTimestamp } = useWalletStore();
+  const wallet: Wallet = queryClient.getQueryData(
+    walletKeys.single(password, passwordSubmitTimestamp)
+  );
+  if (!wallet) {
+      return null;
+  }
+  return (
+    <DataTable style={styles.table}>
+      <DataTable.Header>
+        <DataTable.Title textStyle={styles.subtext}>Address</DataTable.Title>
+        <DataTable.Title textStyle={styles.subtext}>Balance</DataTable.Title>
+        <DataTable.Title textStyle={styles.subtext}>Transactions</DataTable.Title>
+        {/* <DataTable.Title textStyle={styles.subtext}>Total Received</DataTable.Title> */}
+        {/* <DataTable.Title textStyle={styles.subtext}>Private Key</DataTable.Title> */}
+      </DataTable.Header>
+      <DataTable.Row>
+        {/* for loop to index the transactions? */}
+        <DataTable.Cell textStyle={styles.subtext}>{wallet.xpub}</DataTable.Cell>
+        <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions[0].final_balance}</DataTable.Cell>
+        <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions.length}</DataTable.Cell>
+        {/* <DataTable.Cell textStyle={styles.subtext}>{wallet.transactions.total_received}</DataTable.Cell> */}
+        {/* <DataTable.Cell textStyle={styles.subtext}>{wallet.private_key}</DataTable.Cell> */}
+      </DataTable.Row>
+    </DataTable>
+  );
+};
+
+const styles = StyleSheet.create({
+  table: {
+    borderWidth: 1,
+    borderColor: '#000',
+    width: '80%',
+  },
+  subtext: {
+    fontSize: 14,
+    fontStyle: 'italic',
+    marginBottom: 15,
+    color: '#000',
+  },
+});
+
+export default WalletDataTable;
